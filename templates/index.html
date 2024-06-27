@@ -18,10 +18,24 @@
 	<link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}" type="text/css" media="all">
 	<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css" media="all">
 
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 	<!--Fontawesome Icon-->
 	<script src="https://kit.fontawesome.com/47080b3c1e.js" crossorigin="anonymous"></script>
+	<style>
+		.image-overlay {
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+}
 
-
+.image-overlay img:only-of-type:nth-child(1) {
+  object-fit: cover;
+  opacity: .8;
+}
+	</style>
 </head>
 
 <body>
@@ -93,7 +107,7 @@
 				<li><a href="#services"><i class="icon-briefcase"></i>Services</a></li>
 				<li><a href="#experience"><i class="icon-graduation"></i>Background</a></li>
 				<li><a href="#works"><i class="icon-layers"></i>Works</a></li>
-				<li><a href="#blog"><i class="icon-note"></i>Blog</a></li>
+				{% comment %} <li><a href="#blog"><i class="icon-note"></i>Blog</a></li> {% endcomment %}
 				<li><a href="#contact"><i class="icon-bubbles"></i>Contact</a></li>
 			</ul>
 		</nav>
@@ -101,7 +115,7 @@
 		<!-- site footer -->
 		<div class="footer">
 			<!-- copyright text -->
-			<span class="copyright">© 2020 Mikiyas Mebrate Template.</span>
+			<span class="copyright">© 2024 Mikiyas Mebrate.</span>
 		</div>
 
 	</header>
@@ -112,6 +126,23 @@
 		<!-- section home -->
 		<section id="home" class="home d-flex light align-items-center">
 			<div class="container">
+				          <!--Messages-->
+						  <div class="row d-flex  justify-content-center">
+							<div class="col-12">
+							  
+							   {% if messages %}
+							   <ul class="messages">
+								   {% for message in messages %}
+								   <div class="alert {% if message.tags == 'success' %} alert-success {% else %} alert-danger {% endif %}  alert-dismissible">
+									 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+									  {{message}}
+								   </div>
+								   {% endfor %}
+							   </ul>
+							   {% endif %}
+							</div>
+						  </div>
+						  <!--End Message-->
 
 				<!-- intro -->
 				<div class="intro">
@@ -140,7 +171,7 @@
 
 					<!-- buttons -->
 					<div class="mt-4">
-						<a href="#contact" class="btn btn-default">Hire me</a>
+						<a href="#contact" class="btn btn-warning">Hire me</a>
 					</div>
 				</div>
 
@@ -530,144 +561,77 @@
 				<!-- portfolio filter (desktop) -->
 				<ul class="portfolio-filter list-inline wow fadeInUp">
 					<li class="current list-inline-item" data-filter="*">All</li>
-					<li class="list-inline-item" data-filter=".creative">React</li>
-					<li class="list-inline-item" data-filter=".art">Django</li>
-					<li class="list-inline-item" data-filter=".design">Python</li>
-					<li class="list-inline-item" data-filter=".branding"></li>
+					<li class="list-inline-item" data-filter=".django">Django</li>
+					<li class="list-inline-item" data-filter=".react">React</li>
+					<li class="list-inline-item" data-filter=".python">Python</li>
+					<li class="list-inline-item" data-filter=".php">PHP</li>
 				</ul>
 
 				<!-- portfolio filter (mobile) -->
 				<div class="pf-filter-wrapper">
 					<select class="portfolio-filter-mobile">
 						<option value="*">All</option>
-						<option value=".creative">React</option>
-						<option value=".art">Django</option>
-						<option value=".design">Python</option>
-						<option value=".branding">Branding</option>
+						<option value=".django">Django</option>
+						<option value=".react">React</option>
+						<option value=".python">PHP</option>
+						<option value=".php">PHP</option>
 					</select>
 				</div>
 
 				<!-- portolio wrapper -->
 				<div class="row portfolio-wrapper">
 
+					{% for project in projects %}
 					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item art">
-						<a href="images/works/1.svg" class="work-image">
+					<div class="col-md-4 col-sm-6 grid-item {{project.project_type}}">
+						<a href="#small-dialog{{project.id}}" class="work-content">
 							<div class="portfolio-item rounded shadow-dark">
 								<div class="details">
-									<span class="term">Art</span>
-									<h4 class="title">Project Managment Illustration</h4>
-									<span class="more-button"><i class="icon-magnifier-add"></i></span>
-								</div>
-								<div class="thumb">
-									<img src="{% static 'assets/images/works/1.svg' %}" alt="Portfolio-title" />
-									<div class="mask"></div>
-								</div>
-							</div>
-						</a>
-					</div>
-
-					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item creative design">
-						<a href="#small-dialog" class="work-content">
-							<div class="portfolio-item rounded shadow-dark">
-								<div class="details">
-									<span class="term">Creative</span>
-									<h4 class="title">Guest App Walkthrough Screens</h4>
+									<span class="term">{{project.project_type | capfirst}} </span>
+									<h4 class="title">{{project.title}}</h4>
 									<span class="more-button"><i class="icon-options"></i></span>
 								</div>
 								<div class="thumb">
-									<img src="{% static 'assets/images/works/2.svg' %}" alt="Portfolio-title" />
+									<img src="/media/{{project.img1}}" style="width: 100%; height: 200px;" alt="Portfolio-title" />
 									<div class="mask"></div>
 								</div>
 							</div>
 						</a>
-						<div id="small-dialog" class="white-popup zoom-anim-dialog mfp-hide">
-							<img src="{% static 'assets/images/single-work.svg' %}" alt="Title" />
-							<h2>Guest App Walkthrough Screens</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam hendrerit nibh in massa
-								semper rutrum. In rhoncus eleifend mi id tempus.</p>
-							<p>Donec consectetur, libero at pretium euismod, nisl felis lobortis urna, id tristique nisl
-								lectus eget ligula.</p>
-							<a href="#" class="btn btn-default">View on Dribbble</a>
+						<div id="small-dialog{{project.id}}" class="white-popup zoom-anim-dialog mfp-hide">
+							<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+								<div class="carousel-inner">
+								  <div class="carousel-item image-overlay active">
+									<img src="/media/{{project.img1}}" class="d-block w-100" alt="...">
+								  </div>
+								  <div class="carousel-item  image-overlay ">
+									<img src="/media/{{project.img2}}" class="d-block w-100" alt="...">
+								  </div>
+								  <div class="carousel-item image-overlay">
+									<img src="/media/{{project.img3}}" class="d-block w-100" alt="...">
+								  </div>
+								  <div class="carousel-item image-overlay">
+									<img src="/media/{{project.img4}}" class="d-block w-100" alt="...">
+								  </div>
+								</div>
+								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								  <span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+								  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+								  <span class="visually-hidden">Next</span>
+								</button>
+							  </div>
+							<h2>{{project.title}}</h2>
+							<p>{{project.description}}</p>
 						</div>
 					</div>
 
-					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item branding">
-						<a href="https://www.youtube.com/watch?v=qf9z4ulfmYw" class="work-video">
-							<div class="portfolio-item rounded shadow-dark">
-								<div class="details">
-									<span class="term">Branding</span>
-									<h4 class="title">Delivery App Wireframe</h4>
-									<span class="more-button"><i class="icon-camrecorder"></i></span>
-								</div>
-								<div class="thumb">
-									<img src="{% static 'assets/images/works/3.svg' %}" alt="Portfolio-title" />
-									<div class="mask"></div>
-								</div>
-							</div>
-						</a>
-					</div>
+					{% endfor %}
 
-					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item creative">
-						<a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/240233494&amp;color=%23ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"
-							class="work-video">
-							<div class="portfolio-item rounded shadow-dark">
-								<div class="details">
-									<span class="term">Creative</span>
-									<h4 class="title">Onboarding Motivation</h4>
-									<span class="more-button"><i class="icon-music-tone-alt"></i></span>
-								</div>
-								<div class="thumb">
-									<img src="{% static 'assets/images/works/4.svg' %}" alt="Portfolio-title" />
-									<div class="mask"></div>
-								</div>
-							</div>
-						</a>
-					</div>
-
-					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item art branding">
-						<a href="#gallery-1" class="gallery-link">
-							<div class="portfolio-item rounded shadow-dark">
-								<div class="details">
-									<span class="term">Art, Branding</span>
-									<h4 class="title">iMac Mockup Design</h4>
-									<span class="more-button"><i class="icon-picture"></i></span>
-								</div>
-								<div class="thumb">
-									<img src="{% static 'assets/images/works/5.svg' %}" alt="Portfolio-title" />
-									<div class="mask"></div>
-								</div>
-							</div>
-						</a>
-						<div id="gallery-1" class="gallery mfp-hide">
-							<a href="images/works/5.svg"></a>
-							<a href="images/works/4.svg"></a>
-						</div>
-					</div>
-
-					<!-- portfolio item -->
-					<div class="col-md-4 col-sm-6 grid-item creative design">
-						<a href="https://themeforest.net/user/pxlsolutions/portfolio" target="_blank">
-							<div class="portfolio-item rounded shadow-dark">
-								<div class="details">
-									<span class="term">Creative, Design</span>
-									<h4 class="title">Game Store App Concept</h4>
-									<span class="more-button"><i class="icon-link"></i></span>
-								</div>
-								<div class="thumb">
-									<img src="{% static 'assets/images/works/6.svg' %}" alt="Portfolio-title" />
-									<div class="mask"></div>
-								</div>
-							</div>
-						</a>
-					</div>
-
+					
 				</div>
-
+{% comment %} 
 				<!-- more button -->
 				<div class="load-more text-center mt-4">
 					<a href="javascript:" class="btn btn-default"><i class="fas fa-spinner"></i> Load more</a>
@@ -676,7 +640,7 @@
 						<li class="list-inline-item">1</li>
 						<li class="list-inline-item"><a href="works-2.html">2</a></li>
 					</ul>
-				</div>
+				</div> {% endcomment %}
 
 			</div>
 
@@ -849,7 +813,7 @@
 
 		</section> {% endcomment %}
 
-		<!-- section blog -->
+		{% comment %} <!-- section blog -->
 		<section id="blog">
 
 			<div class="container">
@@ -928,7 +892,7 @@
 
 			</div>
 
-		</section>
+		</section> {% endcomment %}
 
 		<!-- section contact -->
 		<section id="contact">
@@ -940,67 +904,30 @@
 
 				<div class="spacer" data-height="60"></div>
 
-				<div class="row">
+				<div class="row justify-content-center">
 
 					<div class="col-md-4">
 						<!-- contact info -->
 						<div class="contact-info">
 							<h3 class="wow fadeInUp">Let's talk about everything!</h3>
 							<p class="wow fadeInUp">Don't like forms? Send me an <a
-									href="mailto:name@example.com">email</a>. 👋</p>
+									href="mailto:mikiyasmebrate@gmail.com" target="_blank">email</a>. 👋</p>
+
+									<h3 class="wow fadeInUp mt-4">Contact Information</h3>
+									<hr>
+									<label for="">Address: <span class="text-muted">Signal, Addis Ababa, Ethiopia</span></label>
+									<label for="">Phone: <span class="text-muted">+251-942274410</span></label>
+									<label for="">Email: <span class="text-muted">mikiyasmebrate@gmail.com</span></label>
 						</div>
 					</div>
 
-					<div class="col-md-8">
+					<div class="col-md-7">
 						<!-- Contact Form -->
-						<form id="contact-form" class="contact-form mt-6" method="post"
-							action="https://jthemes.net/themes/html/Mikiyas Mebrate/demo/form/contact.php">
-
-							<div class="messages"></div>
-
-							<div class="row">
-								<div class="column col-md-6">
-									<!-- Name input -->
-									<div class="form-group">
-										<input type="text" class="form-control" name="InputName" id="InputName"
-											placeholder="Your name" required="required" data-error="Name is required.">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="column col-md-6">
-									<!-- Email input -->
-									<div class="form-group">
-										<input type="email" class="form-control" id="InputEmail" name="InputEmail"
-											placeholder="Email address" required="required"
-											data-error="Email is required.">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="column col-md-12">
-									<!-- Email input -->
-									<div class="form-group">
-										<input type="text" class="form-control" id="InputSubject" name="InputSubject"
-											placeholder="Subject" required="required" data-error="Subject is required.">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="column col-md-12">
-									<!-- Message textarea -->
-									<div class="form-group">
-										<textarea name="InputMessage" id="InputMessage" class="form-control" rows="5"
-											placeholder="Message" required="required"
-											data-error="Message is required."></textarea>
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-							</div>
-
-							<button type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">Send
-								Message</button><!-- Send Button -->
-
+						<form id="contact-form" class="contact-form mt-6" method="post" >
+							
+							{% csrf_token %}
+							{{form.as_p}}
+							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>
 						<!-- Contact Form end -->
 					</div>

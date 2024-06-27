@@ -277,7 +277,7 @@
 
   Validator.prototype.onSubmit = function (e) {
     this.validate()
-    if (this.isIncomplete() || this.hasErrors()) e.preventDefault()
+    if (this.isIncomplete() || this.hasErrors()) console.log('mmmm')
   }
 
   Validator.prototype.toggleSubmit = function () {
