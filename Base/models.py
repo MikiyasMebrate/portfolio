@@ -45,3 +45,7 @@ class ContactUs(models.Model):
 
     def __str__(self) -> str:
         return self.name + " " + str(self.subject)
+    
+
+class Portfolio(models.Model):
+    file = models.FileField(upload_to='cv', max_length=100)

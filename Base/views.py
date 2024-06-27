@@ -3,7 +3,8 @@ from django.contrib import messages
 from .models import (
     Education,
     Project,
-    History
+    History,
+    Portfolio
     )
 from .forms import (
     ContactUsForm
@@ -13,6 +14,7 @@ def index(request):
     education = Education.objects.all()
     project = Project.objects.all()
     history = History.objects.all()
+    cv = Portfolio.objects.all().first()
 
     form = ContactUsForm(request.POST or None)
 
@@ -30,6 +32,7 @@ def index(request):
         'educations' : education,
         'projects' : project,
         'history' : history,
-        'form' : form
+        'form' : form,
+        'cv' : cv,
     }
     return render(request, 'index.html', context=context)

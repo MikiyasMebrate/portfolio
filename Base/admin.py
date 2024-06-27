@@ -3,7 +3,8 @@ from .models import (
     Education,
     Project,
     History,
-    ContactUs
+    ContactUs,
+    Portfolio
 )
 # Register your models here.
 
@@ -12,3 +13,4 @@ admin.site.register(Education)
 admin.site.register(Project)
 admin.site.register(History)
 admin.site.register(ContactUs)
+admin.site.register(Portfolio)
